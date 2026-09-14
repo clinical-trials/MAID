@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Start a free conversation — Luminaria</title>
+<meta name="description" content="Reach Luminaria for a free, confidential conversation about your end-of-life options in New Mexico.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header"><div class="wrap">
+  <a class="logo" href="index.html">
+    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c0 4-3 5-3 8a3 3 0 006 0c0-3-3-4-3-8z" fill="#a96e18"/><rect x="8" y="13" width="8" height="9" rx="1.5" fill="none" stroke="#0e5c43" stroke-width="1.6"/></svg>
+    Luminaria
+  </a>
+  <button class="menu-btn" aria-label="Open menu" onclick="document.getElementById('nav').classList.toggle('open')">☰</button>
+  <nav class="nav" id="nav">
+    <a href="is-this-for-me.html">Is this for me?</a>
+    <a href="how-it-works.html">How it works</a>
+    <a href="costs.html">Costs</a>
+    <a href="our-approach.html">Our approach</a>
+    <a href="faq.html">FAQ</a>
+    <a class="btn" href="contact.html" aria-current="page">Free consultation</a>
+  </nav>
+</div></header>
+
+<main>
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow">Start here</span>
+    <h1>The first conversation is by phone, and there is no fee.</h1>
+    <p>Call us directly, or leave your details and we'll reach out gently — at a time that works for you.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start">
+    <div>
+      <h2 style="font-size:1.5rem;margin-bottom:10px">Call or write to us</h2>
+      <p style="color:var(--ink-2)">We answer with care and without judgment. There's no cost and no obligation
+        to speak with us.</p>
+      <p style="font-size:1.4rem;font-family:var(--serif);color:var(--brand);margin:18px 0 4px">
+        <a href="tel:+15055550100" style="text-decoration:none;color:inherit">(505) 555-0100</a></p>
+      <p style="color:var(--ink-3);font-size:14px;margin-bottom:20px">Available 8am–8pm MT, seven days a week</p>
+      <p style="color:var(--ink-2)"><a href="mailto:care@luminariaeol.com">care@luminariaeol.com</a><br>
+        Serving all of New Mexico, by telehealth and in person.</p>
+
+      <div class="callout amber" style="margin-top:26px">
+        <h3>If this is a crisis</h3>
+        <p>Luminaria is not a crisis line. If you are in emotional distress or thinking about harming yourself,
+          please call or text <b>988</b> now to reach the Suicide &amp; Crisis Lifeline — free, confidential, 24/7.</p>
+      </div>
+    </div>
+
+    <div>
+      <!-- ============================================================================
+           INTAKE FORM — HIPAA / BAA SETUP REQUIRED BEFORE GOING LIVE
+           To accept real inquiries you MUST use a form/back-end provider that will sign a
+           Business Associate Agreement (BAA). Standard Formspree and Netlify Forms do NOT
+           include a BAA on their common plans and must not receive PHI. BAA-covered options:
+             • JotForm HIPAA          • Formstack (Healthcare)
+             • Paubox Forms           • Hushmail Secure Forms / Web Forms
+             • A self-hosted endpoint on HIPAA-eligible infra (e.g. AWS w/ BAA)
+           Then set BOTH data-endpoint and action below to that provider's POST URL.
+           Until a real endpoint is set, the form runs in SAFE DEMO MODE and transmits nothing.
+           Keep PHI to a minimum: name + phone only; no diagnosis or clinical detail.
+           ============================================================================ -->
+      <form class="form" id="intake" novalidate
+            data-endpoint="REPLACE_WITH_BAA_COVERED_ENDPOINT"
+            action="REPLACE_WITH_BAA_COVERED_ENDPOINT" method="POST">
+        <div class="field"><label for="name">Your name</label><input id="name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" required>
+          <div class="hint">The first contact is by phone.</div></div>
+        <div class="field"><label for="email">Email (optional)</label><input id="email" name="email" type="email" autocomplete="email"></div>
+        <div class="field"><label for="who">Who is this for?</label>
+          <select id="who" name="who">
+            <option>Myself</option>
+            <option>A family member</option>
+            <option>A patient (I'm a clinician)</option>
+            <option>Just gathering information</option>
+          </select></div>
+        <div class="field"><label for="best_time">Best time to call</label>
+          <select id="best_time" name="best_time">
+            <option>Morning</option>
+            <option>Afternoon</option>
+            <option>Evening</option>
+            <option>Any time</option>
+          </select></div>
+        <div class="field"><label for="msg">Anything you'd like us to know (optional)</label>
+          <textarea id="msg" name="msg" placeholder="Only what you're comfortable sharing."></textarea>
+          <div class="hint">Please don't include diagnoses or other medical details in this form — we'll cover that safely by phone.</div></div>
+        <!-- honeypot: bots fill this; humans don't see it -->
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn lg" type="submit" style="width:100%">Request a free call</button>
+        <p id="err" hidden style="font-size:13px;color:#963230;margin:12px 0 0">Something went wrong sending your
+          request. Please call us at <a href="tel:+15055550100">(505) 555-0100</a>.</p>
+        <p style="font-size:12.5px;color:var(--ink-3);margin:14px 0 0">By submitting, you agree to be contacted by
+          Luminaria. We never share your information.</p>
+      </form>
+      <p id="demoflag" style="font-size:12px;color:var(--ink-3);margin:10px 2px 0" hidden>
+        Demo mode: no live intake endpoint is configured yet, so this form transmits nothing.</p>
+      <div class="form" id="sent" hidden>
+        <h2 style="font-size:1.4rem;margin-bottom:8px">Thank you for reaching out.</h2>
+        <p style="color:var(--ink-2);margin:0">We've received your request and will call you at the time you chose.
+          If you'd like to reach us sooner, please call <a href="tel:+15055550100">(505) 555-0100</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer"><div class="wrap">
+  <div class="safety"><b>A note on safety.</b> Luminaria is a care-coordination service for terminally ill adults
+    under New Mexico law. It is not a crisis line. If you are in emotional distress or thinking about harming
+    yourself, please call or text <b>988</b> — the Suicide &amp; Crisis Lifeline, free and available 24/7.</div>
+  <div class="cols">
+    <div>
+      <a class="logo" href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c0 4-3 5-3 8a3 3 0 006 0c0-3-3-4-3-8z" fill="#e0a94a"/><rect x="8" y="13" width="8" height="9" rx="1.5" fill="none" stroke="#6cc9a4" stroke-width="1.6"/></svg> Luminaria</a>
+      <p>Compassionate guidance through New Mexico's End-of-Life Options Act — for patients and the families who love them.</p>
+    </div>
+    <div><h5>Explore</h5><ul>
+      <li><a href="is-this-for-me.html">Is this for me?</a></li>
+      <li><a href="how-it-works.html">How it works</a></li>
+      <li><a href="costs.html">Costs &amp; assistance</a></li>
+      <li><a href="our-approach.html">Our approach</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul></div>
+    <div><h5>Get in touch</h5><ul>
+      <li><a href="tel:+15055550100">(505) 555-0100</a></li>
+      <li><a href="mailto:care@luminariaeol.com">care@luminariaeol.com</a></li>
+      <li>Serving all of New Mexico,<br>by telehealth &amp; in person</li>
+    </ul></div>
+  </div>
+  <div class="legal">Luminaria is an independent care-coordination service and is not affiliated with or endorsed
+    by the New Mexico Department of Health. Services are available only to New Mexico residents who qualify under
+    the Elizabeth Whitefield End-of-Life Options Act (NMSA 24-7C): mentally capable adults with a terminal
+    prognosis of six months or less who are able to self-administer medication. Nothing on this site is medical
+    or legal advice. © 2026 Luminaria. <b>This is a demonstration website;</b> the name, phone, email, and
+    address are placeholders.</div>
+</div></footer>
+
+<script>
+(function(){
+  var f = document.getElementById('intake');
+  if(!f) return;
+  var PLACEHOLDER = 'REPLACE_WITH_BAA_COVERED_ENDPOINT';
+  var endpoint = f.getAttribute('data-endpoint');
+  var demo = !endpoint || endpoint === PLACEHOLDER;
+  if(demo){ var flag = document.getElementById('demoflag'); if(flag) flag.hidden = false; }
+
+  f.addEventListener('submit', async function(e){
+    e.preventDefault();
+    document.getElementById('err').hidden = true;
+    // basic client validation
+    if(!f.name.value.trim() || !f.phone.value.trim()){
+      document.getElementById('err').hidden = false;
+      document.getElementById('err').textContent = 'Please enter your name and a phone number.';
+      return;
+    }
+    if(f._gotcha && f._gotcha.value){ return; } // bot trap
+
+    function showSent(){ f.hidden = true; var d=document.getElementById('demoflag'); if(d) d.hidden=true; document.getElementById('sent').hidden = false; }
+
+    if(demo){ showSent(); return; } // safe demo: transmit nothing
+
+    var btn = f.querySelector('button[type=submit]');
+    btn.disabled = true; btn.textContent = 'Sending…';
+    try{
+      var res = await fetch(endpoint, { method:'POST', headers:{'Accept':'application/json'}, body:new FormData(f) });
+      if(res.ok){ showSent(); }
+      else { throw new Error('status ' + res.status); }
+    }catch(err){
+      btn.disabled = false; btn.textContent = 'Request a free call';
+      document.getElementById('err').hidden = false;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
