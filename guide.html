@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A gentle guide — Luminaria</title>
+<meta name="description" content="A gentle, step-by-step guide to help you and your family think through end-of-life options in New Mexico, at your own pace.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .guide-band{width:100%;display:block;border-bottom:1px solid var(--line)}
+  .journey{max-width:960px;margin:0 auto;padding:8px 24px}
+  .jstep{display:grid;grid-template-columns:300px 1fr;gap:34px;align-items:center;padding:38px 0;border-bottom:1px solid var(--line-2)}
+  .jstep:last-child{border-bottom:none}
+  .jstep:nth-child(even) .art{order:2}
+  @media(max-width:720px){.jstep{grid-template-columns:1fr;gap:18px}.jstep:nth-child(even) .art{order:0}}
+  .art{background:linear-gradient(160deg,#e7efe7,#f4ede0);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+  .art svg{display:block;width:100%;height:auto}
+  .jstep .stepno{font-family:var(--serif);font-size:14px;color:var(--accent);font-weight:600;letter-spacing:.02em}
+  .jstep h2{font-family:var(--serif);font-weight:500;font-size:1.5rem;color:var(--dusk);margin:6px 0 10px}
+  .jstep p{color:var(--ink-2);font-size:16px;margin:0 0 14px}
+  .prompt{border-left:3px solid var(--brand);background:var(--brand-soft);border-radius:0 12px 12px 0;padding:12px 16px;font-family:var(--serif);font-style:italic;font-size:15.5px;color:#2c4438}
+  .prompt b{font-style:normal;font-weight:600;color:var(--brand)}
+  .reassure{max-width:60ch;margin:0 auto;text-align:center;color:var(--ink-2);font-size:1.05rem}
+  .evolve{max-width:70ch;margin:26px auto 0}
+</style>
+</head>
+<body>
+
+<header class="site-header"><div class="wrap">
+  <a class="logo" href="index.html">
+    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c0 4-3 5-3 8a3 3 0 006 0c0-3-3-4-3-8z" fill="#a96e18"/><rect x="8" y="13" width="8" height="9" rx="1.5" fill="none" stroke="#0e5c43" stroke-width="1.6"/></svg>
+    Luminaria
+  </a>
+  <button class="menu-btn" aria-label="Open menu" onclick="document.getElementById('nav').classList.toggle('open')">☰</button>
+  <nav class="nav" id="nav">
+    <a href="guide.html" aria-current="page">A gentle guide</a>
+    <a href="is-this-for-me.html">Is this for me?</a>
+    <a href="how-it-works.html">How it works</a>
+    <a href="costs.html">Costs</a>
+    <a href="our-approach.html">Our approach</a>
+    <a href="resources.html">Resources</a>
+    <a href="faq.html">FAQ</a>
+    <a class="btn" href="contact.html">Free consultation</a>
+  </nav>
+</div></header>
+
+<!-- Dawn over the high desert -->
+<svg class="guide-band" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A quiet New Mexico dawn over layered desert mesas, with a bird in flight.">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4e7cf"/><stop offset="0.5" stop-color="#ecebdd"/><stop offset="1" stop-color="#dfe8dc"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#f6dca6"/><stop offset="1" stop-color="#f6dca6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="300" fill="url(#sky)"/>
+  <circle cx="840" cy="150" r="150" fill="url(#sun)"/>
+  <circle cx="840" cy="150" r="46" fill="#eec27a"/>
+  <!-- birds -->
+  <g stroke="#8a7f6d" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M300 78 q14 -12 28 0 q14 -12 28 0"/>
+    <path d="M360 104 q10 -9 20 0 q10 -9 20 0"/>
+  </g>
+  <!-- far mesa -->
+  <path d="M0 210 L0 150 L180 150 L220 128 L520 128 L560 150 L1200 150 L1200 210 Z" fill="#c7cdba"/>
+  <!-- mid mesa -->
+  <path d="M0 240 L0 196 L300 196 L340 172 L700 172 L740 196 L1200 196 L1200 240 Z" fill="#a7b199"/>
+  <!-- near ridge -->
+  <path d="M0 300 L0 232 L1200 232 L1200 300 Z" fill="#7f8a6c"/>
+  <!-- foreground plants: yucca silhouettes -->
+  <g fill="#4f5a44">
+    <g transform="translate(120 232)"><path d="M0 40 L-22 -22 M0 40 L-11 -34 M0 40 L0 -40 M0 40 L11 -34 M0 40 L22 -22" stroke="#4f5a44" stroke-width="5" stroke-linecap="round"/></g>
+    <g transform="translate(1050 232)"><path d="M0 46 L-26 -26 M0 46 L-12 -40 M0 46 L0 -48 M0 46 L12 -40 M0 46 L26 -26" stroke="#4f5a44" stroke-width="6" stroke-linecap="round"/></g>
+  </g>
+</svg>
+
+<main>
+<section class="page-hero" style="padding-top:40px">
+  <div class="wrap">
+    <span class="eyebrow">A gentle guide</span>
+    <h1>You can take this one step at a time.</h1>
+    <p>This is a guide for you and the people who love you — a way to think through each step, together, without
+      pressure. There is no schedule here but your own. You can pause, change your mind, or simply gather
+      information. Whatever you need, you don't have to carry it alone.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:20px">
+  <div class="journey">
+
+    <!-- 1 Reach out -->
+    <div class="jstep">
+      <div class="art">
+        <svg viewBox="0 0 300 200" role="img" aria-label="A desert bird on the ground at dawn.">
+          <rect width="300" height="200" fill="none"/>
+          <path d="M0 168 Q150 150 300 168 L300 200 L0 200 Z" fill="#dfe3cf"/>
+          <circle cx="238" cy="54" r="18" fill="#eec27a"/>
+          <g fill="#4f5a44" transform="translate(120 120) scale(1.7)">
+            <!-- clean perched desert bird -->
+            <path d="M0 0 q-4 -24 14 -29 q17 -4 24 7 q7 -2 10 3 q-4 5 -10 3 q3 15 -10 19 q-19 6 -29 -5 z"/>
+            <path d="M40 -19 l16 -5 q4 -1 1 3 l-9 8 z"/>
+            <line x1="6" y1="17" x2="6" y2="34" stroke="#4f5a44" stroke-width="3" stroke-linecap="round"/>
+            <line x1="16" y1="17" x2="16" y2="34" stroke="#4f5a44" stroke-width="3" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <div class="stepno">Step one</div>
+        <h2>Reaching out</h2>
+        <p>The hardest step is often the first question. You can call us just to understand your options — there's
+          no cost, no commitment, and no judgment. We'll listen first.</p>
+        <div class="prompt"><b>A gentle prompt:</b> What questions have been sitting on your heart? You don't need
+          the right words — just start where you are.</div>
+      </div>
+    </div>
+
+    <!-- 2 Is it right for you -->
+    <div class="jstep">
+      <div class="art">
+        <svg viewBox="0 0 300 200" role="img" aria-label="A blooming yucca, New Mexico's state flower.">
+          <rect width="300" height="200" fill="none"/>
+          <g transform="translate(150 196)">
+            <path d="M0 0 L-70 -60 M0 0 L-40 -78 M0 0 L-14 -86 M0 0 L14 -86 M0 0 L40 -78 M0 0 L70 -60" stroke="#6f7d5c" stroke-width="9" stroke-linecap="round"/>
+            <line x1="0" y1="0" x2="0" y2="-140" stroke="#8a9472" stroke-width="7" stroke-linecap="round"/>
+            <g fill="#f3ece0" stroke="#e6ddcb" stroke-width="1.5">
+              <ellipse cx="0" cy="-140" rx="9" ry="13"/><ellipse cx="-12" cy="-124" rx="8" ry="11"/>
+              <ellipse cx="12" cy="-124" rx="8" ry="11"/><ellipse cx="-10" cy="-104" rx="7" ry="10"/>
+              <ellipse cx="10" cy="-104" rx="7" ry="10"/><ellipse cx="0" cy="-118" rx="8" ry="11"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <div class="stepno">Step two</div>
+        <h2>Wondering if it's right for you</h2>
+        <p>Medical aid in dying is one option among several. We'll talk honestly about all of them — including
+          palliative care and hospice — so you can find what fits your values and your hopes for this time.</p>
+        <div class="prompt"><b>A gentle prompt:</b> What does a peaceful ending look like to you? What matters most
+          in the days you have — comfort, place, the people beside you?</div>
+      </div>
+    </div>
+
+    <!-- 3 Talk with family -->
+    <div class="jstep">
+      <div class="art">
+        <svg viewBox="0 0 300 200" role="img" aria-label="Two desert birds perched together on a branch.">
+          <rect width="300" height="200" fill="none"/>
+          <line x1="30" y1="150" x2="270" y2="120" stroke="#9a8a6f" stroke-width="6" stroke-linecap="round"/>
+          <g fill="#4f5a44">
+            <g transform="translate(120 132)"><path d="M0 0 q-3 -20 12 -24 q14 -3 20 6 q6 -2 8 3 q-3 4 -8 3 q2 12 -8 16 q-16 5 -24 -4 z"/><line x1="4" y1="14" x2="4" y2="30" stroke="#4f5a44" stroke-width="3"/><line x1="12" y1="14" x2="12" y2="30" stroke="#4f5a44" stroke-width="3"/></g>
+            <g transform="translate(176 122)"><path d="M0 0 q-3 -20 12 -24 q14 -3 20 6 q6 -2 8 3 q-3 4 -8 3 q2 12 -8 16 q-16 5 -24 -4 z"/><line x1="4" y1="14" x2="4" y2="28" stroke="#4f5a44" stroke-width="3"/><line x1="12" y1="14" x2="12" y2="28" stroke="#4f5a44" stroke-width="3"/></g>
+          </g>
+          <circle cx="240" cy="52" r="15" fill="#eec27a"/>
+        </svg>
+      </div>
+      <div>
+        <div class="stepno">Step three</div>
+        <h2>Talking with your family</h2>
+        <p>These conversations are tender. Some families arrive together; others need time and gentle help to get
+          there. We can be part of these talks, or simply give you the words to begin.</p>
+        <div class="prompt"><b>A gentle prompt:</b> Who do you want beside you? Is there someone you'd like to
+          understand your wishes — and someone you'd like to protect?</div>
+      </div>
+    </div>
+
+    <!-- 4 Confirm eligibility -->
+    <div class="jstep">
+      <div class="art">
+        <svg viewBox="0 0 300 200" role="img" aria-label="A small lizard resting on a sunlit desert rock.">
+          <rect width="300" height="200" fill="none"/>
+          <ellipse cx="150" cy="164" rx="120" ry="26" fill="#e2d7be"/>
+          <g fill="#5c6a4a">
+            <path d="M108 150 q-6 -8 2 -12 q6 -3 12 1 q10 -8 22 -6 q10 2 14 10 q18 -2 28 8 q8 8 -2 12 l-10 -2 q4 8 -4 10 q-8 1 -10 -6 q-14 4 -26 0 q-4 8 -12 6 q-6 -2 -4 -9 q-10 1 -14 -6 q-2 -6 4 -8 z"/>
+            <path d="M186 161 q22 4 30 -6 q6 -8 -2 -12 q-4 8 -14 8 q6 6 -2 10 z"/>
+            <circle cx="120" cy="144" r="2.3" fill="#e2d7be"/>
+          </g>
+          <circle cx="252" cy="44" r="14" fill="#eec27a"/>
+        </svg>
+      </div>
+      <div>
+        <div class="stepno">Step four</div>
+        <h2>Confirming your options with clinicians</h2>
+        <p>Two caring New Mexico clinicians will make sure this path is truly available to you and truly your own.
+          We arrange it — by video or in person, wherever you are in the state — and stay with you through the
+          paperwork so it never feels like a maze.</p>
+        <div class="prompt"><b>A gentle prompt:</b> What would help you feel steady during these visits? A familiar
+          face, a written list of questions, a quiet time of day?</div>
+      </div>
+    </div>
+
+    <!-- 5 Prepare & the day -->
+    <div class="jstep">
+      <div class="art">
+        <svg viewBox="0 0 300 200" role="img" aria-label="A coyote on a ridge beneath the moon at dusk.">
+          <rect width="300" height="200" fill="none"/>
+          <rect width="300" height="200" fill="#eadfce" opacity="0.0"/>
+          <circle cx="222" cy="60" r="26" fill="#f2e6c8"/>
+          <path d="M0 200 L0 150 Q150 128 300 150 L300 200 Z" fill="#7f8a6c"/>
+          <g fill="#3f4736" transform="translate(96 150)">
+            <path d="M0 0 q6 -6 10 -18 q1 -8 -2 -14 q8 2 10 10 q2 8 0 16 q14 -2 26 6 l14 -4 q6 -1 3 4 l-8 8 q6 6 2 12 l-6 12 q-2 5 -5 0 l-2 -12 q-16 6 -30 2 l-4 12 q-2 5 -5 0 l0 -14 q-8 -4 -8 -14 q0 -12 6 -18 z"/>
+            <path d="M14 -32 l-4 16 8 -6 z"/>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <div class="stepno">Step five</div>
+        <h2>Preparing — and the day itself</h2>
+        <p>When you're ready, we help with every practical piece: the medication, the timing, the setting. You
+          choose where you are and who is with you. A trained companion can be present to support your family — and
+          you never have to use the medication once you have it.</p>
+        <div class="prompt"><b>A gentle prompt:</b> Where do you feel most at peace? What sounds, light, or people
+          would you want near you?</div>
+      </div>
+    </div>
+
+    <!-- 6 After -->
+    <div class="jstep">
+      <div class="art">
+        <svg viewBox="0 0 300 200" role="img" aria-label="A single bird lifting into a soft dawn sky over the desert.">
+          <defs><linearGradient id="dawn2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e8cf"/><stop offset="1" stop-color="#e9efdf"/></linearGradient></defs>
+          <rect width="300" height="200" fill="url(#dawn2)"/>
+          <circle cx="150" cy="150" r="80" fill="#f6dca6" opacity="0.5"/>
+          <circle cx="150" cy="150" r="34" fill="#eec27a"/>
+          <path d="M0 178 Q150 162 300 178 L300 200 L0 200 Z" fill="#cbd2ba"/>
+          <g stroke="#5c6a4a" stroke-width="4" fill="none" stroke-linecap="round">
+            <path d="M140 70 q16 -14 32 0 q16 -14 32 0"/>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <div class="stepno">Step six</div>
+        <h2>After — care for those you leave</h2>
+        <p>Our care doesn't end at goodbye. We help your family with what comes next — the practical steps and the
+          grief — and we honor your traditions and faith, whatever they are.</p>
+        <div class="prompt"><b>A gentle prompt:</b> What would you want your family to remember? Is there something
+          you'd like to leave them — words, a wish, a way to be cared for?</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="wrap evolve">
+    <div class="callout amber">
+      <h3>This guide keeps growing</h3>
+      <p>Families teach us something with every journey. We add their questions and wisdom to this guide and to our
+        <a href="faq.html">evolving FAQ</a>, so the people who come after are met with a little more understanding.
+        If a question here is missing, please ask us — it may help the next family, too.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <h2>Whenever you're ready — even just to talk.</h2>
+    <p>The first conversation is free, private, and yours to lead.</p>
+    <a class="btn lg" href="contact.html">Start a free conversation</a>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer"><div class="wrap">
+  <div class="safety"><b>A note on safety.</b> Luminaria is a care-coordination service for terminally ill adults
+    under New Mexico law. It is not a crisis line. If you are in emotional distress or thinking about harming
+    yourself, please call or text <b>988</b> — the Suicide &amp; Crisis Lifeline, free and available 24/7.</div>
+  <div class="cols">
+    <div>
+      <a class="logo" href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c0 4-3 5-3 8a3 3 0 006 0c0-3-3-4-3-8z" fill="#e0a94a"/><rect x="8" y="13" width="8" height="9" rx="1.5" fill="none" stroke="#6cc9a4" stroke-width="1.6"/></svg> Luminaria</a>
+      <p>Compassionate guidance through New Mexico's End-of-Life Options Act — for patients and the families who love them.</p>
+    </div>
+    <div><h5>Explore</h5><ul>
+      <li><a href="guide.html">A gentle guide</a></li>
+      <li><a href="is-this-for-me.html">Is this for me?</a></li>
+      <li><a href="how-it-works.html">How it works</a></li>
+      <li><a href="costs.html">Costs &amp; assistance</a></li>
+      <li><a href="our-approach.html">Our approach</a></li>
+      <li><a href="resources.html">Resources &amp; the law</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul></div>
+    <div><h5>Get in touch</h5><ul>
+      <li><a href="tel:+15055550100">(505) 555-0100</a></li>
+      <li><a href="mailto:care@luminariaeol.com">care@luminariaeol.com</a></li>
+      <li>Serving all of New Mexico,<br>by telehealth &amp; in person</li>
+    </ul></div>
+  </div>
+  <div class="legal">Luminaria is an independent care-coordination service and is not affiliated with or endorsed
+    by the New Mexico Department of Health. Services are available only to New Mexico residents who qualify under
+    the Elizabeth Whitefield End-of-Life Options Act (NMSA 24-7C): mentally capable adults with a terminal
+    prognosis of six months or less who are able to self-administer medication. Nothing on this site is medical
+    or legal advice. © 2026 Luminaria. <b>This is a demonstration website;</b> the name, phone, email, and
+    address are placeholders. Illustrations are original artwork.</div>
+</div></footer>
+
+</body>
+</html>
