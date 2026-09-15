@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Path of Light — Luminaria</title>
+<meta name="description" content="A living, generative New Mexico dawn — a path of luminarias guiding the way. A visual concept for the Luminaria site.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500&family=Figtree:wght@400;500;600&display=swap">
+<style>
+  :root{--ink:#f3ece0;--muted:#c9bfae;--serif:"Spectral",Georgia,serif;--sans:"Figtree",-apple-system,sans-serif}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:#181428;color:var(--ink);font-family:var(--sans);overflow-x:hidden}
+  .stage{position:relative;width:100%;height:100svh;min-height:560px;overflow:hidden}
+  canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+    text-align:center;padding:0 24px 10vh;pointer-events:none}
+  .eyebrow{text-transform:uppercase;letter-spacing:.26em;font-size:12px;font-weight:600;color:#f0c98a;
+    text-shadow:0 1px 12px rgba(0,0,0,.5);margin-bottom:18px}
+  .overlay h1{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,5.4vw,3.6rem);line-height:1.12;
+    margin:0 0 14px;max-width:18ch;text-shadow:0 2px 26px rgba(0,0,0,.55);color:#f6efe3}
+  .overlay p{max-width:44ch;margin:0 0 26px;font-size:clamp(1rem,2.1vw,1.2rem);color:#e7dfd0;
+    text-shadow:0 1px 16px rgba(0,0,0,.6)}
+  .overlay .cue{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#c9bfae;opacity:.8;
+    animation:breathe 4s ease-in-out infinite}
+  @keyframes breathe{0%,100%{opacity:.45}50%{opacity:.9}}
+  @media(prefers-reduced-motion:reduce){.cue{animation:none}}
+  /* concept note below the fold */
+  .note{max-width:720px;margin:0 auto;padding:44px 24px 70px;color:#3a372f}
+  .note-wrap{background:#f3efe6}
+  .note h2{font-family:var(--serif);font-weight:500;font-size:1.5rem;color:#211f1a;margin:0 0 10px}
+  .note p{color:#4c473f;font-size:16px;line-height:1.65;margin:0 0 12px;max-width:66ch}
+  .note .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:#8a5912;background:#f0e2c6;border:1px solid #e3c99a;border-radius:20px;padding:3px 11px;margin-bottom:14px}
+</style>
+</head>
+<body>
+<div class="stage">
+  <canvas id="c" aria-hidden="true"></canvas>
+  <div class="overlay">
+    <span class="eyebrow">Luminaria</span>
+    <h1>We'll light the way, and walk it beside you.</h1>
+    <p>Compassionate guidance through New Mexico's end-of-life options — at your pace, and never alone.</p>
+    <span class="cue">↓ the path continues</span>
+  </div>
+</div>
+
+<div class="note-wrap"><div class="note">
+  <span class="tag">Visual concept</span>
+  <h2>Why a path of light</h2>
+  <p>On the darkest nights of the year, New Mexicans line their walkways with <em>luminarias</em> — small paper
+    lanterns that guide people gently home. It is a tradition of light offered to others at a threshold.</p>
+  <p>Rather than the calm-stock-photography every end-of-life site reaches for, this opens on a living high-desert
+    dawn: a path of luminarias flickering softly, stars fading as first light rises over the mesas. It moves
+    slowly, breathes, and settles the viewer. The light — not scenery — is the message.</p>
+  <p>The scene respects <em>reduced-motion</em> settings (holding a single still frame), needs no photographs or
+    outside assets, and would become the site's signature — carried in smaller touches across every page.</p>
+</div></div>
+
+<script>
+(function(){
+  var canvas=document.getElementById('c'), ctx=canvas.getContext('2d');
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var W=0,H=0,DPR=1;
+  function resize(){
+    DPR=Math.min(window.devicePixelRatio||1,2);
+    var r=canvas.getBoundingClientRect();
+    W=r.width; H=r.height;
+    canvas.width=Math.round(W*DPR); canvas.height=Math.round(H*DPR);
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    build();
+  }
+
+  // scene elements
+  var stars=[], motes=[], lums=[], mesas=[];
+  function rand(a,b){return a+Math.random()*(b-a);}
+
+  function build(){
+    var horizon=H*0.60;
+    // stars in upper sky
+    stars=[];
+    var n=Math.round(W*H/9000);
+    for(var i=0;i<n;i++){
+      var y=rand(0,horizon*0.92);
+      stars.push({x:rand(0,W),y:y,r:rand(0.4,1.3),ph:rand(0,6.28),
+        depth:1-(y/horizon)});
+    }
+    // mesa silhouettes (2 layers)
+    mesas=[
+      makeMesa(horizon+6, 26, '#2b2740', 0.6),
+      makeMesa(horizon+2, 40, '#211d33', 1.0)
+    ];
+    // luminarias along a gently curving path
+    lums=[];
+    var pairs=15;
+    for(var k=0;k<pairs;k++){
+      var t=k/(pairs-1);                 // 0 near .. 1 far
+      var p=pathAt(t,horizon);
+      lums.push(makeLum(p.cx - p.hw, p.y, t, k*1.7));
+      lums.push(makeLum(p.cx + p.hw, p.y, t, k*1.7+0.9));
+    }
+    // rising light motes
+    motes=[];
+    for(var m=0;m<10;m++) motes.push(newMote(horizon));
+  }
+  function makeMesa(baseY,amp,color,alpha){
+    var pts=[],steps=10;
+    for(var i=0;i<=steps;i++){pts.push(rand(0,1));}
+    return {baseY:baseY,amp:amp,color:color,alpha:alpha,seed:rand(0,10)};
+  }
+  function pathAt(t,horizon){
+    // perspective: near the bottom is wide, converges to a point near horizon
+    var baseY=H*1.04;
+    var y=horizon + (baseY-horizon)*(1-t)*(1-t);   // compress toward horizon
+    var vanish=W*0.5 + W*0.04;
+    var nearC=W*0.5;
+    var cx=vanish + (nearC-vanish)*(1-t) + Math.sin(t*2.4)*W*0.05*(1-t);
+    var hw=(W*0.30)*(1-t)*(1-t) + 6;               // half-width of path
+    return {cx:cx,y:y,hw:hw};
+  }
+  function makeLum(x,y,t,phase){
+    return {x:x,y:y,t:t,phase:phase,base:0.72+0.2*(1-t),
+      size:(3.2+13*(1-t))};
+  }
+  function newMote(horizon){
+    return {x:rand(W*0.3,W*0.7),y:rand(horizon*0.7,H),
+      vy:rand(4,11),drift:rand(-6,6),ph:rand(0,6.28),life:0,max:rand(6,12),
+      r:rand(0.8,1.8)};
+  }
+
+  function drawSky(dawn){
+    // dawn: 0 deeper pre-dawn .. 1 warmer
+    var horizon=H*0.60;
+    var g=ctx.createLinearGradient(0,0,0,horizon);
+    var top=mix([30,26,54],[46,34,58],dawn);
+    var midc=mix([74,52,66],[120,74,84],dawn);
+    var hor=mix([196,140,96],[234,178,120],dawn);
+    g.addColorStop(0,rgb(top));
+    g.addColorStop(0.62,rgb(midc));
+    g.addColorStop(1,rgb(hor));
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,horizon+2);
+    // warm horizon glow
+    var gg=ctx.createRadialGradient(W*0.54,horizon,4,W*0.54,horizon,W*0.6);
+    gg.addColorStop(0,'rgba(244,196,132,'+(0.34+0.16*dawn)+')');
+    gg.addColorStop(1,'rgba(244,196,132,0)');
+    ctx.fillStyle=gg; ctx.fillRect(0,0,W,horizon+40);
+    // ground
+    var gr=ctx.createLinearGradient(0,horizon,0,H);
+    gr.addColorStop(0,rgb(mix([40,36,44],[58,46,44],dawn)));
+    gr.addColorStop(1,'#14111f');
+    ctx.fillStyle=gr; ctx.fillRect(0,horizon,W,H-horizon);
+  }
+  function drawStars(dawn,tm){
+    var a=Math.max(0,1-dawn*1.15);
+    for(var i=0;i<stars.length;i++){var s=stars[i];
+      var tw=0.6+0.4*Math.sin(tm*1.4+s.ph);
+      ctx.globalAlpha=a*tw*s.depth*0.9;
+      ctx.fillStyle='#fff';
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.2832);ctx.fill();
+    }
+    ctx.globalAlpha=1;
+  }
+  function drawMesas(){
+    var horizon=H*0.60;
+    for(var m=0;m<mesas.length;m++){var M=mesas[m];
+      ctx.globalAlpha=M.alpha; ctx.fillStyle=M.color;
+      ctx.beginPath(); ctx.moveTo(0,H);
+      var steps=14;
+      for(var i=0;i<=steps;i++){
+        var x=W*i/steps;
+        var yy=M.baseY - (Math.sin(i*0.9+M.seed)*0.5+0.5)*M.amp
+                       - (Math.sin(i*0.37+M.seed*2)*0.5+0.5)*M.amp*0.4;
+        ctx.lineTo(x,yy);
+      }
+      ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
+    }
+    ctx.globalAlpha=1;
+  }
+  function drawPathGround(){
+    // faint warm path between the luminaria rows
+    var horizon=H*0.60;
+    var near=pathAt(0,horizon), far=pathAt(1,horizon);
+    var g=ctx.createLinearGradient(0,near.y,0,far.y);
+    g.addColorStop(0,'rgba(233,196,140,0.10)');
+    g.addColorStop(1,'rgba(233,196,140,0)');
+    ctx.fillStyle=g;
+    ctx.beginPath();
+    ctx.moveTo(near.cx-near.hw,near.y);
+    ctx.lineTo(near.cx+near.hw,near.y);
+    ctx.lineTo(far.cx+far.hw,far.y);
+    ctx.lineTo(far.cx-far.hw,far.y);
+    ctx.closePath(); ctx.fill();
+  }
+  function drawLum(L,tm){
+    var fl=L.base + 0.16*Math.sin(tm*2.3+L.phase) + 0.08*Math.sin(tm*5.7+L.phase*1.7);
+    fl=Math.max(0.4,fl);
+    var glowR=L.size*3.4;
+    ctx.globalCompositeOperation='lighter';
+    var g=ctx.createRadialGradient(L.x,L.y,0,L.x,L.y,glowR);
+    g.addColorStop(0,'rgba(255,196,120,'+(0.55*fl)+')');
+    g.addColorStop(0.4,'rgba(247,168,86,'+(0.22*fl)+')');
+    g.addColorStop(1,'rgba(247,168,86,0)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(L.x,L.y,glowR,0,6.2832); ctx.fill();
+    // warm core
+    ctx.fillStyle='rgba(255,226,170,'+(0.9*fl)+')';
+    ctx.beginPath(); ctx.arc(L.x,L.y,L.size*0.55,0,6.2832); ctx.fill();
+    ctx.globalCompositeOperation='source-over';
+  }
+  function drawMotes(dt,tm){
+    ctx.globalCompositeOperation='lighter';
+    for(var i=0;i<motes.length;i++){var p=motes[i];
+      p.life+=dt; p.y-=p.vy*dt; p.x+=Math.sin(tm+p.ph)*p.drift*dt*0.1;
+      var lifeA=Math.sin(Math.min(1,p.life/p.max)*Math.PI); // fade in/out
+      ctx.fillStyle='rgba(255,205,140,'+(0.5*lifeA)+')';
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.2832); ctx.fill();
+      if(p.life>=p.max||p.y<H*0.42){ motes[i]=newMote(H*0.60); }
+    }
+    ctx.globalCompositeOperation='source-over';
+  }
+
+  // helpers
+  function mix(a,b,t){return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];}
+  function rgb(c){return 'rgb('+(c[0]|0)+','+(c[1]|0)+','+(c[2]|0)+')';}
+
+  function frame(dawn,tm,dt){
+    drawSky(dawn);
+    drawStars(dawn,tm);
+    drawMesas();
+    drawPathGround();
+    // draw far luminarias first (painter's), they're ordered near->far in array so reverse
+    for(var i=lums.length-1;i>=0;i--) drawLum(lums[i],tm);
+    if(dt>0) drawMotes(dt,tm);
+  }
+
+  var last=0, running=true;
+  function loop(ts){
+    if(!running){return;}
+    var t=ts/1000; var dt=last?Math.min(0.05,t-last):0; last=t;
+    var dawn=0.5+0.5*Math.sin(t*0.05 - 1.2);   // slow breathing dawn
+    frame(dawn,t,dt);
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('resize',resize);
+  document.addEventListener('visibilitychange',function(){
+    running=!document.hidden; if(running && !reduce){last=0;requestAnimationFrame(loop);}
+  });
+  resize();
+  if(reduce){ frame(0.72,2.0,0); }   // one warm still frame
+  else { requestAnimationFrame(loop); }
+})();
+</script>
+</body>
+</html>
