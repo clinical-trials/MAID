@@ -9,6 +9,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Figtree:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="styles.css">
+<style>
+.hero-stage{position:relative;min-height:min(86svh,760px);display:flex;align-items:flex-end;overflow:hidden;background:#181428}
+.hero-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero-inner{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;width:100%;padding:0 24px 9vh;text-align:center;color:#f6efe3}
+.hero-inner .eyebrow{color:#f0c98a;display:block;margin-bottom:16px;text-shadow:0 1px 12px rgba(0,0,0,.5)}
+.hero-inner h1{font-family:var(--serif);font-weight:300;color:#f7f0e4;font-size:clamp(2rem,5.2vw,3.5rem);line-height:1.12;max-width:18ch;margin:0 auto 18px;text-shadow:0 2px 26px rgba(0,0,0,.55)}
+.hero-inner .lede{color:#e8e0d1;max-width:52ch;margin:0 auto 26px;font-size:clamp(1.02rem,2.1vw,1.26rem);text-shadow:0 1px 16px rgba(0,0,0,.6)}
+.hero-inner .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center}
+.hero-inner .free{display:block;margin-top:16px;font-size:14px;color:#cabfac;text-shadow:0 1px 12px rgba(0,0,0,.5)}
+.btn.ghost-light{background:transparent;color:#f6efe3;box-shadow:none;border:1.5px solid rgba(246,239,227,.55)}
+.btn.ghost-light:hover{background:rgba(246,239,227,.12);color:#fff}
+</style>
 </head>
 <body>
 
@@ -31,15 +43,16 @@
 </div></header>
 
 <main>
-<section class="hero">
-  <div class="wrap">
+<section class="hero-stage">
+  <canvas id="lumc" aria-hidden="true"></canvas>
+  <div class="hero-inner">
     <span class="eyebrow">New Mexico End-of-Life Options Act</span>
     <h1>Compassionate guidance through life's final passage.</h1>
     <p class="lede">If you are facing a terminal illness in New Mexico, you have options — and you don't have to
       navigate them alone. We walk beside you and your family, every step of the way.</p>
     <div class="cta-row">
       <a class="btn lg" href="contact.html">Start with a free conversation</a>
-      <a class="btn ghost lg" href="how-it-works.html">See how it works</a>
+      <a class="btn ghost-light lg" href="guide.html">A gentle guide</a>
     </div>
     <span class="free">The first conversation is by phone, and there is no fee.</span>
   </div>
@@ -148,6 +161,66 @@
     or legal advice. © 2026 Luminaria. <b>This is a demonstration website;</b> the name, phone, email, and
     address are placeholders.</div>
 </div></footer>
+
+<script>
+(function(){
+  var canvas=document.getElementById('lumc'); if(!canvas) return; var ctx=canvas.getContext('2d');
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var W=0,H=0,DPR=1,stars=[],motes=[],lums=[],mesas=[];
+  function rand(a,b){return a+Math.random()*(b-a);}
+  function mix(a,b,t){return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];}
+  function rgb(c){return 'rgb('+(c[0]|0)+','+(c[1]|0)+','+(c[2]|0)+')';}
+  function pathAt(t,horizon){
+    var baseY=H*1.04, y=horizon+(baseY-horizon)*(1-t)*(1-t);
+    var vanish=W*0.5+W*0.04, nearC=W*0.5;
+    var cx=vanish+(nearC-vanish)*(1-t)+Math.sin(t*2.4)*W*0.05*(1-t);
+    var hw=(W*0.30)*(1-t)*(1-t)+6; return {cx:cx,y:y,hw:hw};
+  }
+  function newMote(h){return {x:rand(W*0.3,W*0.7),y:rand(h*0.7,H),vy:rand(4,11),drift:rand(-6,6),ph:rand(0,6.28),life:0,max:rand(6,12),r:rand(0.8,1.8)};}
+  function build(){
+    var horizon=H*0.60; stars=[];
+    var n=Math.round(W*H/9000);
+    for(var i=0;i<n;i++){var y=rand(0,horizon*0.92);stars.push({x:rand(0,W),y:y,r:rand(0.4,1.3),ph:rand(0,6.28),depth:1-(y/horizon)});}
+    mesas=[{baseY:horizon+6,amp:26,color:'#2b2740',alpha:0.6,seed:rand(0,10)},{baseY:horizon+2,amp:40,color:'#211d33',alpha:1.0,seed:rand(0,10)}];
+    lums=[]; var pairs=15;
+    for(var k=0;k<pairs;k++){var t=k/(pairs-1),p=pathAt(t,horizon);
+      lums.push({x:p.cx-p.hw,y:p.y,t:t,phase:k*1.7,base:0.72+0.2*(1-t),size:3.2+13*(1-t)});
+      lums.push({x:p.cx+p.hw,y:p.y,t:t,phase:k*1.7+0.9,base:0.72+0.2*(1-t),size:3.2+13*(1-t)});}
+    motes=[]; for(var m=0;m<10;m++) motes.push(newMote(horizon));
+  }
+  function resize(){DPR=Math.min(window.devicePixelRatio||1,2);var r=canvas.getBoundingClientRect();W=r.width;H=r.height;canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);ctx.setTransform(DPR,0,0,DPR,0,0);build();}
+  function frame(dawn,tm,dt){
+    var horizon=H*0.60;
+    var g=ctx.createLinearGradient(0,0,0,horizon);
+    g.addColorStop(0,rgb(mix([30,26,54],[46,34,58],dawn)));
+    g.addColorStop(0.62,rgb(mix([74,52,66],[120,74,84],dawn)));
+    g.addColorStop(1,rgb(mix([196,140,96],[234,178,120],dawn)));
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,horizon+2);
+    var gg=ctx.createRadialGradient(W*0.54,horizon,4,W*0.54,horizon,W*0.6);
+    gg.addColorStop(0,'rgba(244,196,132,'+(0.34+0.16*dawn)+')');gg.addColorStop(1,'rgba(244,196,132,0)');
+    ctx.fillStyle=gg;ctx.fillRect(0,0,W,horizon+40);
+    var gr=ctx.createLinearGradient(0,horizon,0,H);
+    gr.addColorStop(0,rgb(mix([40,36,44],[58,46,44],dawn)));gr.addColorStop(1,'#14111f');
+    ctx.fillStyle=gr;ctx.fillRect(0,horizon,W,H-horizon);
+    var a=Math.max(0,1-dawn*1.15);
+    for(var i=0;i<stars.length;i++){var s=stars[i];ctx.globalAlpha=a*(0.6+0.4*Math.sin(tm*1.4+s.ph))*s.depth*0.9;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.2832);ctx.fill();}
+    ctx.globalAlpha=1;
+    for(var mm=0;mm<mesas.length;mm++){var M=mesas[mm];ctx.globalAlpha=M.alpha;ctx.fillStyle=M.color;ctx.beginPath();ctx.moveTo(0,H);var steps=14;for(var j=0;j<=steps;j++){var x=W*j/steps;var yy=M.baseY-(Math.sin(j*0.9+M.seed)*0.5+0.5)*M.amp-(Math.sin(j*0.37+M.seed*2)*0.5+0.5)*M.amp*0.4;ctx.lineTo(x,yy);}ctx.lineTo(W,H);ctx.closePath();ctx.fill();}
+    ctx.globalAlpha=1;
+    var near=pathAt(0,horizon),far=pathAt(1,horizon);
+    var pg=ctx.createLinearGradient(0,near.y,0,far.y);pg.addColorStop(0,'rgba(233,196,140,0.10)');pg.addColorStop(1,'rgba(233,196,140,0)');
+    ctx.fillStyle=pg;ctx.beginPath();ctx.moveTo(near.cx-near.hw,near.y);ctx.lineTo(near.cx+near.hw,near.y);ctx.lineTo(far.cx+far.hw,far.y);ctx.lineTo(far.cx-far.hw,far.y);ctx.closePath();ctx.fill();
+    for(var L=lums.length-1;L>=0;L--){var lm=lums[L];var fl=Math.max(0.4,lm.base+0.16*Math.sin(tm*2.3+lm.phase)+0.08*Math.sin(tm*5.7+lm.phase*1.7));var glowR=lm.size*3.4;ctx.globalCompositeOperation='lighter';var lg=ctx.createRadialGradient(lm.x,lm.y,0,lm.x,lm.y,glowR);lg.addColorStop(0,'rgba(255,196,120,'+(0.55*fl)+')');lg.addColorStop(0.4,'rgba(247,168,86,'+(0.22*fl)+')');lg.addColorStop(1,'rgba(247,168,86,0)');ctx.fillStyle=lg;ctx.beginPath();ctx.arc(lm.x,lm.y,glowR,0,6.2832);ctx.fill();ctx.fillStyle='rgba(255,226,170,'+(0.9*fl)+')';ctx.beginPath();ctx.arc(lm.x,lm.y,lm.size*0.55,0,6.2832);ctx.fill();ctx.globalCompositeOperation='source-over';}
+    if(dt>0){ctx.globalCompositeOperation='lighter';for(var p=0;p<motes.length;p++){var mo=motes[p];mo.life+=dt;mo.y-=mo.vy*dt;mo.x+=Math.sin(tm+mo.ph)*mo.drift*dt*0.1;var la=Math.sin(Math.min(1,mo.life/mo.max)*Math.PI);ctx.fillStyle='rgba(255,205,140,'+(0.5*la)+')';ctx.beginPath();ctx.arc(mo.x,mo.y,mo.r,0,6.2832);ctx.fill();if(mo.life>=mo.max||mo.y<H*0.42)motes[p]=newMote(H*0.60);}ctx.globalCompositeOperation='source-over';}
+  }
+  var last=0,running=true;
+  function loop(ts){if(!running)return;var t=ts/1000,dt=last?Math.min(0.05,t-last):0;last=t;frame(0.5+0.5*Math.sin(t*0.05-1.2),t,dt);requestAnimationFrame(loop);}
+  window.addEventListener('resize',resize);
+  document.addEventListener('visibilitychange',function(){running=!document.hidden;if(running&&!reduce){last=0;requestAnimationFrame(loop);}});
+  resize();
+  if(reduce){frame(0.72,2.0,0);} else {requestAnimationFrame(loop);}
+})();
+</script>
 
 </body>
 </html>
